@@ -1,0 +1,12 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+    
+    <div class="list card" ng-repeat="(routeId, route) in data.routes">
+      <div class="item item-divider">Route {{routeId}}</div>
+      <div class="item item-body" ng-repeat="building in route">
+        <div>Building <b>{{building}}</b></div>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>
