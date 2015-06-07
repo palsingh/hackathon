@@ -3,12 +3,29 @@ var ferryDriverTracker = angular.module('myDriverApp')
 ferryDriverTracker.controller('formController', ['myServices','$scope','$interval', function(myServices,$scope,$interval) {
     
     var	dataObj = {};
-        dataObj.routeId = 'A';
+        
+    $scope.data = {
+        selectedRoute : null
+    };
     
-    myServices.getRoutes().success(function(response){ 
-        dataObj.vehicleId = response.vehicleId; 
-    }); 
+    console.log('vehicle id in local storage '+localStorage.getItem("vehicleId"))
     
+    $scope.routes = myServices.routeInformation();
+    
+    if(localStorage.getItem("vehicleId") == null){
+        myServices.getRoutes().success(function(response){ 
+            var routes = null;
+            
+            dataObj.vehicleId = response.vehicleId; 
+            console.log(response);
+
+            localStorage.setItem("vehicleId", response.vehicleId);
+            localStorage.setItem("routes",routes);
+        });
+    }else{
+        dataObj.vehicleId = localStorage.getItem("vehicleId");
+    }
+   
     $scope.getLocation = function() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition($scope.updatedataObj);
@@ -18,7 +35,8 @@ ferryDriverTracker.controller('formController', ['myServices','$scope','$interva
     }
     
     $scope.sendPosition = function(){
-        myServices.updateLocation(dataObj).success(function(response){               
+        myServices.updateLocation(dataObj).success(function(response){    
+            console.log(response)           
         });
     }
     
@@ -32,6 +50,9 @@ ferryDriverTracker.controller('formController', ['myServices','$scope','$interva
     */
     
     $scope.startInterval = function(){
+        console.log('selectedRoute '+$scope.data.selectedRoute);
+        dataObj.routeId = $scope.data.selectedRoute;
+        console.log(dataObj)
         myServices.timer = $interval( function(){
             $scope.getLocation();
             if (typeof(dataObj.vehicleId) != 'undefined' && typeof(dataObj.coords) != 'undefined'){                

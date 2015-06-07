@@ -8,7 +8,10 @@
                 </select>
             </label>
         </div>
-        <button class="button button-block button-stable" ng-click="selectBuilding();">Find Routes</button>
+        
+        <button class="button button-block button-stable button-dash" ng-click="selectBuilding();" ng-disabled="data.loadingFerries">
+            Find Routes&nbsp;<ion-spinner icon="android" ng-show="data.loadingFerries"></ion-spinner>
+        </button>
         <!-- List routes Based on user selected building -->
         <!--<ion-list ng-show="data.buildingRoutes.length">
             <h3 class="padding-top">Available Routes</h3>
@@ -30,30 +33,33 @@
                 <div class="item item-body">
 
                     <div class="route-graph-container" ng-repeat="ferry in data.ferriesOnRoute" ng-show="routeId===ferry.routeId">
-                        <div class="route-graph">
-                            <p>&nbsp;</p>
+                        <div class="route-graph" ng-controller="infoBoxesCtrl">
+                            <h2 class="reset-mg-top">Ferry {{$index}}</h2>
                             <ul class="line graph">
                                 <li class="unit size1of{{route.buildings.length}} fk-text-center state" ng-repeat="building in route.buildings">
                                     <ul class="line">
-                                        <li class="order-step" ng-class="{'processed':ferry.route[building].reached, 'inactive':!ferry.route[building].reached}" ng-click="data.showInfoBox($index)"></li>
+                                        <li class="order-step" ng-class="{'processed':ferry.route[building].reached, 'inactive':!ferry.route[building].reached}" ng-click="info.showBox($index)"></li>
                                     </ul>
-                                    <p class="abs-text">Building {{building}}</p>
+                                    <p class="abs-text">{{building}}</p>
                                 </li>
                             </ul>
                             <div class="rposition">
-                                <div class="granular-info-box" ng-repeat="building in route.buildings" ng-show="data.infoBoxes[$index]">
+                                <div class="granular-info-box" ng-repeat="building in route.buildings" ng-show="info.boxes[$index]">
                                     <div class="arrow arrow0"></div>
                                     <div class="margin5" ng-init="ferryData=ferry.route[building];">
                                         <div class="bmargin5 fk-font-normal" ng-class="{'processed':ferryData.reached, 'inactive':!ferryData.reached}">Building {{building}}</div>
                                         <ul class="line granular-info">
-                                            <li class="unit col1" ng-show="!ferryData.reached">Distance to travel: {{ferryData.distancePending}}</li>
-                                            <li class="unit col2" ng-show="!ferryData.reached">Estimated travel time: {{ferryData.travelTime}}</li>
-                                            <li class="lastUnit col4 word-break" ng-show="ferryData.reached">Reached building</li>
+                                            <li class="unit col1" ng-show="!ferryData.reached"></li>
+                                            <li class="unit col2" ng-show="!ferryData.reached"></li>
+                                            <li class="lastUnit col4 word-break" ng-show="ferryData.reached">Reached</li>
                                         </ul>
+                                        <p>Distance to travel: {{ferryData.distancePending}}</p>
+                                        <p>Estimated time of travel: {{ferryData.travelTime}}/p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <hr/>
                     </div>
                     
                     <div ng-show="!data.ferriesOnRoute.length">No ferry on this route.</div>

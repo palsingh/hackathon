@@ -29,12 +29,13 @@
 
 .button-container{
 	text-align: center;
-	margin-top: 60%;
+	margin-top: 65%;
 }
 
 .nav-icon-container{
-	margin-top: 35px;
+	margin: 49px 0px 0 -17px;
 	position: absolute;
+  width: 100%;
 }
 
 
@@ -166,3 +167,33 @@
   text-align: center;
   white-space: nowrap;
 }
+
+.btn.btn-lg.btn-success{
+  background-color: #296ad4;
+  border-color: #296ad4;
+}
+
+.spinner.spinner-energized{
+  stroke: #296ad4;
+  fill: #296ad4;
+}
+
+.bar.bar-header.bar-positive{
+  color: #ebf3ff;
+  background-color: #296ad4;
+  font-family: Pristina;
+  margin: 0;
+  font-size: 27px;
+}
+.bar.bar-header.bar-positive h1{
+    font-size: 23px
+}
+.tracker-list .item{
+  margin-top: 50px;
+}
+
+.button.button-stable {
+  background-color: #296ad4;
+  color: #ebf3ff;
+}
+

@@ -1,4 +1,11 @@
 /* Empty. Add your own CSS if you like */
+@font-face {
+	font-family: 'Conv_Pristina';
+	src: url('fonts/Pristina.eot');
+	src: local('☺'), url('http://10.175.175.90/fonts/Pristina.woff') format('woff'), url('http://10.175.175.90/fonts/Pristina.ttf') format('truetype'), url('http://10.175.175.90/fonts/Pristina.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
 
 
 /** Progress Bar **/
@@ -129,7 +136,34 @@
   white-space: nowrap;
 }
 
+.route-graph-container .route-graph {
+    position: relative;
+}
 .route-graph-container .abs-text {
     position: absolute;
+    top: 0;
+}
+.button-dash svg {
+    padding-top: 12px;
+}
+.reset-mg-top {
+    margin-top: 0;
     top: 15px;
+}
+
+.bar.bar-stable .title {
+  color: #ebf3ff;
+  background-color: #296ad4;
+  font-family: 'Conv_Pristina';
+  margin: 0;
+  font-size: 27px;
+}
+
+.button.button-stable{
+  background-color: #296ad4;
+  color: #ebf3ff;
+}
+
+ion-tabs.tabs-color-active-positive .tab-item.tab-item-active{
+  color: #296ad4;
 }
