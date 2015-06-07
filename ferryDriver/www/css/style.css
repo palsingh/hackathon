@@ -166,3 +166,13 @@
   text-align: center;
   white-space: nowrap;
 }
+
+.btn.btn-lg.btn-success{
+  background-color: #296ad4;
+  border-color: #296ad4;
+}
+
+.spinner.spinner-energized{
+  stroke: #296ad4;
+  fill: #296ad4;
+}
