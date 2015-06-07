@@ -129,7 +129,16 @@
   white-space: nowrap;
 }
 
+.route-graph-container .route-graph {
+    position: relative;
+}
 .route-graph-container .abs-text {
     position: absolute;
-    top: 15px;
+    top: 0;
+}
+.button-dash svg {
+    padding-top: 12px;
+}
+.reset-mg-top {
+    margin-top: 0;
 }

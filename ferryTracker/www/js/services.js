@@ -165,7 +165,7 @@ myAppServices.factory('Ferry', function ($q, $http) {
         getFerriesOnRoute: function (buildingId) {
             var deferred = $q.defer();
             $http.post(serverURL + "getLocation/", {"office":buildingId}).success(function (response) {
-                deferred.resolve(response.vehicles);
+                deferred.resolve(response);
             }).error(function (msg, code) {
                 deferred.reject(msg);
             });
