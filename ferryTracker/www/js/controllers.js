@@ -14,14 +14,15 @@ ferryTracker.controller('DashCtrl', function ($scope, Ferry) {
     };
 });
 
+ferryTracker.controller('FerriesCtrl', function ($scope, $stateParams, Ferry) {
+    var routeId = ($stateParams.routeId).toUpperCase();
+    
+    $scope.data = {
+        selectedRoute: routeId
+    };
+});
+
 ferryTracker.controller('RoutesCtrl', function ($scope, Ferry) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
     $scope.data = {
         routes: Ferry.routes()
     };
@@ -41,7 +42,6 @@ ferryTracker.controller('RouteDetailCtrl', function ($scope, $stateParams, $wind
     });
 
     staticMapHTML += staticMapPath;
-    console.log(staticMapHTML);
 
     $scope.data = {
         selectedRoute: routeId,

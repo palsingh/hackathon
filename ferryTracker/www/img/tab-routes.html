@@ -1,0 +1,22 @@
+<ion-view view-title="Time Table">
+  <ion-content>
+    
+    <ion-list>      
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="(routeId, route) in data.routes" type="item-text-wrap" href="#/tab/routes/{{routeId}}">
+        <img ng-src="img/googleMaps.jpeg" />
+        <h2>Route {{routeId}}</h2>
+        <p>Frequency: <b>{{route.frequency}}</b></p>
+        
+        <p>From Building
+            <strong ng-repeat="building in route.buildings">
+                <span ng-show="$index">--></span>
+                {{building}}
+            </strong>
+            & vice-versa
+        </p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-view>

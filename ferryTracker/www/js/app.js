@@ -39,6 +39,14 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
         controller: 'DashCtrl'
       }
     }
+  }).state('tab.ferries', {
+    url: '/ferries/:routeId',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/tab-ferries.html',
+        controller: 'FerriesCtrl'
+      }
+    }
   }).state('tab.routes', {
     url: '/routes',
     views: {

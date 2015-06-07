@@ -27,7 +27,7 @@
             <h3 class="padding-top">Available Routes</h3>
             <div class="list card" ng-repeat="(routeId, route) in data.routes" ng-show="data.buildingRoutes.indexOf(routeId)>-1">
                 <div class="item item-divider">Route {{routeId}}</div>
-                <a class="item-content" ui-sref="tab.routes">
+                <a class="item-content" ui-sref="tab.ferries({routeId:routeId})">
                     <div class="item item-body  item-icon-right">
                         <div ng-repeat="building in route.buildings">
                             Building <strong>{{building}}</strong>
