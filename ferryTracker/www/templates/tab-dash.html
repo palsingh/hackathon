@@ -1,12 +1,43 @@
 <ion-view view-title="Dashboard">
-  <ion-content class="padding">
-    
-    <div class="list card" ng-repeat="(routeId, route) in data.routes">
-      <div class="item item-divider">Route {{routeId}}</div>
-      <div class="item item-body" ng-repeat="building in route">
-        <div>Building <b>{{building}}</b></div>
-      </div>
-    </div>
-
-  </ion-content>
+    <ion-content class="padding">
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">Select Building</div>
+                <select ng-model="data.userBuilding">
+                    <option ng-repeat="(building, routes) in data.buildings" value="{{building}}">Building {{building}}</option>
+                </select>
+            </label>
+        </div>
+        <button class="button button-block button-stable" ng-click="selectBuilding();">Find Routes</button>
+        <!-- List routes Based on user selected building -->
+        <!--<ion-list ng-show="data.buildingRoutes.length">
+            <h3 class="padding-top">Available Routes</h3>
+            <ion-item class="item-remove-animate item-icon-right" ng-repeat="(routeId, route) in data.routes" type="item-text-wrap"
+            href="#/tab/routes/{{routeId}}" ng-show="data.buildingRoutes.indexOf(routeId)>-1">
+                <h2>Route {{routeId}}</h2>
+                <p ng-repeat="building in route.buildings">Building
+                    <strong>{{building}}</strong>
+                    <span ng-hide="$last">to</span>
+                </p>
+                <p>& Vice-versa</p>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </ion-item>
+        </ion-list>-->
+        <div class="available-routes-options" ng-show="data.buildingRoutes.length">
+            <h3 class="padding-top">Available Routes</h3>
+            <div class="list card" ng-repeat="(routeId, route) in data.routes" ng-show="data.buildingRoutes.indexOf(routeId)>-1">
+                <div class="item item-divider">Route {{routeId}}</div>
+                <a class="item-content" ui-sref="tab.routes">
+                    <div class="item item-body  item-icon-right">
+                        <div ng-repeat="building in route.buildings">
+                            Building <strong>{{building}}</strong>
+                            <span ng-hide="$last">to</span>
+                            <span ng-show="$last">& Vice-versa</span>
+                        </div>
+                        <i class="icon ion-chevron-right icon-accessory"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

@@ -27,18 +27,11 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
-  $stateProvider
-
-  // setup an abstract state for the tabs directive
-    .state('tab', {
+  $stateProvider.state('tab', {
     url: "/tab",
     abstract: true,
     templateUrl: "templates/tabs.html"
-  })
-
-  // Each tab has its own nav history stack:
-
-    .state('tab.dash', {
+  }).state('tab.dash', {
     url: '/dash',
     views: {
       'tab-dash': {
@@ -46,9 +39,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
         controller: 'DashCtrl'
       }
     }
-  })
-
-    .state('tab.routes', {
+  }).state('tab.routes', {
     url: '/routes',
     views: {
       'tab-routes': {
@@ -56,8 +47,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
         controller: 'RoutesCtrl'
       }
     }
-  })
-    .state('tab.route-detail', {
+  }).state('tab.route-detail', {
     url: '/routes/:routeId',
     views: {
       'tab-routes': {
@@ -65,9 +55,7 @@ myapp.config(function ($stateProvider, $urlRouterProvider) {
         controller: 'RouteDetailCtrl'
       }
     }
-  })
-
-    .state('tab.account', {
+  }).state('tab.account', {
     url: '/account',
     views: {
       'tab-account': {
