@@ -26,18 +26,20 @@ app.use(function (req, res, next) {
 
 // building locations with route
 var ferryRoutes = {
-    //'A': [[28.5029773, 77.0706075], [28.5013721, 77.0700469], [28.499069, 77.0697146], [28.490055, 77.060631]]
-    'A': [[28.503472199999997, 77.0709068], [28.5033025, 77.0708763], [28.503333599999998, 77.07087920000001]]
+    'A': [[28.5029773, 77.0706075], [28.5013721, 77.0700469], [28.499069, 77.0697146], [28.490055, 77.060631]],
+    'B': [[28.5029773, 77.0706075], [28.490055, 77.060631], [28.491177, 77.068292]],
+    'C': [[28.5029773, 77.0706075], [28.5013721, 77.0700469], [28.499069, 77.0697146]],
+    'D': [[28.5013721, 77.0700469], [28.499069, 77.0697146], [28.491686, 77.080698]],
+    'E': [[28.5013721, 77.0700469], [28.499069, 77.0697146], [28.491177, 77.068292]]
 };
 
-var offices = ["371", "37-36", "14", "GP-28", "17-18", "13"];
+var offices = ["371", "37/36", "14", "GP-28", "17/18", "13"];
 
 var routes = {
     routes: {
-        //"A": ["371", "36/37", "14", "GP-28"],
-        "A": ["371", "36/37", "14"],
+        "A": ["371", "36/37", "14", "GP-28"],
         "B": ["371", "GP-28", "13"],
-        "C": ["371", "14", "36/37"],
+        "C": ["371", "36/37", "14"],
         "D": ["36/37", "14", "17/18"],
         "E": ["36/37", "14", "13"]
     }
@@ -121,20 +123,18 @@ app.post('/updateLocation/', function (req, res) {
         }
         buildingsOnRoute.map(function (val, index) {
             var distance = calculateDistance(reqData.coords[0], reqData.coords[1], val[0], val[1], "K");
-            route[routes.routes[reqData.routeId][index]].office = routes.routes.A[index];
+            route[routes.routes[reqData.routeId][index]].office = routes.routes[reqData.routeId][index];
             // if ferry reaches within 50 meters of building,
             // we assume that it reached that building.
             // so based on that reset flags and change direction
             if (distance < 0.02) {
                 route[routes.routes[reqData.routeId][index]].reached = 1;
                 if (index === 0) {
-                    console.log("This is first stop");
                     for (var k = 1; k < routes.routes[reqData.routeId].length; k += 1){
                         route[routes.routes[reqData.routeId][k]].reached = 0;
                     }
                     direction = 1;
                 } else if (index === (routes.routes[reqData.routeId].length -1)) {
-                    console.log("This is last stop ", routes.routes.A[index]);
                     direction = 0;
                     // reset previous `reached` flag
                     for (var j = 0; j <= index; j += 1) {
@@ -166,44 +166,13 @@ app.post('/updateLocation/', function (req, res) {
         });
     });
 
-
-    // get direction from db for vehicle
-    /*FTS.findById(reqData.vehicleId, function (err, data) {
-        var direction = data.currentDirection;
-        var from = reqData.coords[0]+","+reqData.coords[1];
-        var to = "";
-
-        if (direction === 1) {
-            to = routes.routes[reqData.routeId][routes.routes[reqData.routeId].length -1]
-        } else {
-            to = routes.routes[reqData.routeId][0];
-        }
-
-        var toCoords = ferryRoutes[reqData.routeId][to];
-
-        // make web service call to google maps distance matrix
-        var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + from + "&destinations=" + toCoords[0]+","+toCoords[1];
-        request.get(url,
-            function (err, res1, body) {
-            if (!err) {
-                var result = {}
-                res.json(body);
-            } else {
-                res.send({
-                    'status': 'error'
-                });
-            }
-        });
-        *//*FTS.update({'_id': data.vehicleId}, {
-
-        })*//*
-    });*/
 });
 
 // API User App
 app.get('/getOffices/', function (req, res) {
     res.json(offices);
 });
+
 app.post('/getLocation/', function (req, res) {
     console.log("Getting Location");
     var office = req.body.office;
@@ -211,24 +180,69 @@ app.post('/getLocation/', function (req, res) {
     // find available routes
     query['route.' + office] = {$exists: true};
     FTS.find(query, function(err, items) {
-        var from = items.currentLocation;
-        var to = "";
-        if (direction === 0) {
-            to = routes.routes[reqData.routeId][routes.routes[reqData.routeId].length -1]
-        } else {
-            to = routes.routes[reqData.routeId][0];
-        }
-        var toCoords = ferryRoutes[reqData.routeId][to];
-        var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + from + "&destinations=" + toCoords[0]+","+toCoords[1];
-        request.get(url, function (err, res1, body) {
-            if (!err) {
-                var result = {};
-                res.json(body);
+        console.log("Result found: ", items.length);
+        var result = [];
+        items.map(function (item, index) {
+            var yetToreach = [];
+            var from = item.currentLocation;
+            var direction = item.currentDirection;
+            var to = [];
+            if (direction === 0) {
+                for (var i = (ferryRoutes[item.routeId].length -1); i > 0; i -= 1) {
+                    if (item.route[routes.routes[item.routeId][i]].reached === 0) {
+                        yetToreach.push({
+                            vehicleId: item.vehicleId,
+                            office: routes.routes[item.routeId][i],
+                            coords: ferryRoutes[item.routeId][i]
+                        });
+                        to.push(ferryRoutes[item.routeId][i]);
+                    }
+                }
             } else {
-                res.send({
-                    'status': 'error'
-                });
+                for (var i = 0; i < (ferryRoutes[item.routeId].length); i += 1) {
+                    if (item.route[routes.routes[item.routeId][i]].reached === 0) {
+                        yetToreach.push({
+                            vehicleId: item._id,
+                            office: routes.routes[item.routeId][i],
+                            coords: ferryRoutes[item.routeId][i]
+                        });
+                        to.push(ferryRoutes[item.routeId][i]);
+                    }
+                }
             }
+
+            var toCoords = to.join("|");
+            var url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + from + "&destinations=" + toCoords;
+            request.get(url, function (err, res1, body) {
+                console.log("Got response from web service");
+                if (!err) {
+                    body = JSON.parse(body);
+                    for (var i = 0; i < (yetToreach.length); i += 1) {
+                        item.route[yetToreach[i].office].travelTime = body.rows[0].elements[i].duration.text;
+                        item.route[yetToreach[i].office].distancePending = body.rows[0].elements[i].distance.text;
+                    }
+                    FTS.update({_id: item._id}, {
+                        route: item.route
+                    }, function (err, data) {
+                        if (err) {
+                            res.send({
+                                'status': 'error'
+                            });
+                        } else {
+                            result.push(item);
+                            console.log(index, items.length);
+                            if (index === (items.length -1)) {
+                                res.json(result);
+                            }
+                        }
+                    })
+                } else {
+                    res.send({
+                        'status': 'error'
+                    });
+                }
+                console.log("web service result");
+            });
         });
     });
 });
