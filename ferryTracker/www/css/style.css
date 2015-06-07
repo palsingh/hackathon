@@ -128,3 +128,8 @@
   text-align: center;
   white-space: nowrap;
 }
+
+.route-graph-container .abs-text {
+    position: absolute;
+    top: 15px;
+}

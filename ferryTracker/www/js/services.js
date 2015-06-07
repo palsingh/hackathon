@@ -1,6 +1,6 @@
 var myAppServices = angular.module('myapp.services', [])
 
-myAppServices.factory('Ferry', function () {
+myAppServices.factory('Ferry', function ($q, $http) {
 
     var geoPositions = {
         "371": {
@@ -79,13 +79,6 @@ myAppServices.factory('Ferry', function () {
             ],
             "__v": 0,
             "route": {
-                "14": {
-                    "office": "14",
-                    "isDeparted": false,
-                    "travelTime": "",
-                    "distancePending": "",
-                    "reached": 1
-                },
                 "371": {
                     "office": "371",
                     "isDeparted": false,
@@ -100,8 +93,15 @@ myAppServices.factory('Ferry', function () {
                     "distancePending": "",
                     "reached": 0
                 },
-                "17/18": {
-                    "office": "36/37",
+                "14": {
+                    "office": "14",
+                    "isDeparted": false,
+                    "travelTime": "",
+                    "distancePending": "",
+                    "reached": 1
+                },
+                "GP-28": {
+                    "office": "GP-28",
                     "isDeparted": false,
                     "travelTime": "",
                     "distancePending": "",
@@ -111,7 +111,7 @@ myAppServices.factory('Ferry', function () {
         },
         {
             "_id": "55735d983dd925782082f482",
-            "routeId": "A",
+            "routeId": "B",
             "currentDirection": 0,
             "isRunning": false,
             "currentLocation": [
@@ -145,6 +145,7 @@ myAppServices.factory('Ferry', function () {
         }
     ];
 
+    var serverURL = "http://10.175.174.150:5000/";
     return {
         routes: function () {
             return routes;
@@ -161,8 +162,14 @@ myAppServices.factory('Ferry', function () {
         buildings: function () {
             return buildings;
         },
-        getFerriesOnRoute: function (routeId) {
-            return ferries;
+        getFerriesOnRoute: function (buildingId) {
+            var deferred = $q.defer();
+            $http.post(serverURL + "getLocation/", {"office":buildingId}).success(function (response) {
+                deferred.resolve(response.vehicles);
+            }).error(function (msg, code) {
+                deferred.reject(msg);
+            });
+            return deferred.promise;
         }
     };
 });

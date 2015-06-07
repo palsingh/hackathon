@@ -1,17 +1,24 @@
 var ferryTracker = angular.module('myapp.controllers', [])
 
 ferryTracker.controller('DashCtrl', function ($scope, Ferry) {
+
+    var infoBoxes = [];
+    for (var i = 0; i < 4; i++) {
+        infoBoxes.push(false);
+    }
+
     $scope.data = {
         routes: Ferry.routes(),
         buildings: Ferry.buildings(),
         userBuilding: "",
         buildingRoutes: [],
         ferriesOnRoute: [],
-        showInfoBox: function(targetIndex) {
-            angular.forEach($scope.data.infoBoxes, function(bool, index){
-                console.log(typeof(targetIndex));
-                console.log(typeof(index));
-                if(parseInt(index)===parseInt(targetIndex)) {
+        infoBoxes: infoBoxes,
+        showInfoBox: function (targetIndex) {
+            angular.forEach($scope.data.infoBoxes, function (bool, index) {
+                console.log(typeof (targetIndex));
+                console.log(typeof (index));
+                if (parseInt(index) === parseInt(targetIndex)) {
                     $scope.data.infoBoxes[index] = !$scope.data.infoBoxes[index];
                 } else {
                     $scope.data.infoBoxes[index] = false;
@@ -23,25 +30,13 @@ ferryTracker.controller('DashCtrl', function ($scope, Ferry) {
     $scope.selectBuilding = function () {
         var selectedBuilding = $scope.data.userBuilding;
         $scope.data.buildingRoutes = $scope.data.buildings[selectedBuilding];
-        $scope.data.ferriesOnRoute = Ferry.getFerriesOnRoute(selectedBuilding);
-    };
-});
 
-ferryTracker.controller('FerriesCtrl', function ($scope, $stateParams, Ferry) {
-    var routeId = ($stateParams.routeId).toUpperCase(),
-        infoBoxes = new Array(),
-        numberOfBuildings = 4,
-        ferriesOnRoute = [];
-    
-    for(var i=0; i<numberOfBuildings; i++) {
-        infoBoxes.push(false);
-    }
-    
-    $scope.data = {
-        selectedRoute: routeId,
-        ferries: ferriesOnRoute,
-        infoBoxes: infoBoxes,
-        
+        var $promise = Ferry.getFerriesOnRoute(selectedBuilding);
+        $promise.then(function (ferriesOnRoute) {
+            $scope.data.ferriesOnRoute = ferriesOnRoute;
+        }, function (errorMessage) {
+            console.log("Error while fetching ferries for the selected building. Error Message:" + errorMessage);
+        });
     };
 });
 

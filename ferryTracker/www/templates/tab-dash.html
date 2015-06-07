@@ -28,36 +28,35 @@
             <div class="list card" ng-repeat="(routeId, route) in data.routes" ng-show="data.buildingRoutes.indexOf(routeId)>-1">
                 <div class="item item-divider">Route {{routeId}}</div>
                 <div class="item item-body">
-                    <!--<div ng-repeat="building in route.buildings">Building
-                        <strong>{{building}}</strong>
-                        <span ng-hide="$last">to</span>
-                        <span ng-show="$last">& Vice-versa</span>
-                    </div>-->
-                    <div class="route-graph-container" ng-repeat="ferry in data.ferriesOnRoute">
+
+                    <div class="route-graph-container" ng-repeat="ferry in data.ferriesOnRoute" ng-show="routeId===ferry.routeId">
                         <div class="route-graph">
-                            <p>Route B {{Object.keys(ferry.route).length}}</p>
+                            <p>&nbsp;</p>
                             <ul class="line graph">
-                                <li class="unit size1of{{Object.keys(ferry.route).length}} fk-text-center state" ng-repeat="building in ferry.route">
+                                <li class="unit size1of{{route.buildings.length}} fk-text-center state" ng-repeat="building in route.buildings">
                                     <ul class="line">
-                                        <li class="order-step" ng-class="{'processed':building.reached, 'inactive':!building.reached}" ng-click="data.showInfoBox($index)"></li>
+                                        <li class="order-step" ng-class="{'processed':ferry.route[building].reached, 'inactive':!ferry.route[building].reached}" ng-click="data.showInfoBox($index)"></li>
                                     </ul>
+                                    <p class="abs-text">Building {{building}}</p>
                                 </li>
                             </ul>
                             <div class="rposition">
-                                <div class="granular-info-box" ng-repeat="building in ferry.route" ng-show="data.infoBoxes[$index]">
+                                <div class="granular-info-box" ng-repeat="building in route.buildings" ng-show="data.infoBoxes[$index]">
                                     <div class="arrow arrow0"></div>
-                                    <div class="margin5">
-                                        <div class="processed bmargin5 fk-font-normal">Building {{building.office}}</div>
+                                    <div class="margin5" ng-init="ferryData=ferry.route[building];">
+                                        <div class="bmargin5 fk-font-normal" ng-class="{'processed':ferryData.reached, 'inactive':!ferryData.reached}">Building {{building}}</div>
                                         <ul class="line granular-info">
-                                            <li class="unit col1">Sat, 6th Jun</li>
-                                            <li class="unit col2">12:38 pm</li>
-                                            <li class="lastUnit col4 word-break">Payment Approved</li>
+                                            <li class="unit col1" ng-show="!ferryData.reached">Distance to travel: {{ferryData.distancePending}}</li>
+                                            <li class="unit col2" ng-show="!ferryData.reached">Estimated travel time: {{ferryData.travelTime}}</li>
+                                            <li class="lastUnit col4 word-break" ng-show="ferryData.reached">Reached building</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <div ng-show="!data.ferriesOnRoute.length">No ferry on this route.</div>
                     
                 </div>
             </div>
