@@ -53,7 +53,7 @@ ferryTracker.controller('DashCtrl', function ($scope, $interval, Ferry) {
         $scope.data.loadFerries(selectedBuilding);
         
         // Load data recursively
-        $intervalPromise = $interval($scope.data.loadFerries, 10000, 0, true);
+        //$intervalPromise = $interval($scope.data.loadFerries, 10000, 0, true);
     };
 });
 

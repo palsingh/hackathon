@@ -10,7 +10,7 @@
 
 /** Progress Bar **/
 .graph{
-	background: url('../img/dots-sprite-75a7f2fc.png') repeat-x -6px -221px;
+	background: url('../img/dots-sprite-75a7f2fc.png') repeat-x -6px -206px;
 }
 
 .unit {
@@ -36,10 +36,12 @@
 
 .graph .state {
   height: 36px;
+  position: relative;
 }
 
 .graph .state ul{
   border-left: dotted 1px #ccc;
+  margin-top: 15px;
 }
 
 .graph .order-step{
@@ -66,6 +68,7 @@
 
 .line, .lastUnit {
   overflow: hidden;
+  height: 49px;
 }
 
 .lastUnit{
@@ -142,6 +145,8 @@
 .route-graph-container .abs-text {
     position: absolute;
     top: 0;
+    left: 35%;
+    margin-top:0;
 }
 .button-dash svg {
     padding-top: 12px;
@@ -182,4 +187,15 @@ ion-tabs.tabs-color-active-positive .tab-item.tab-item-active{
 }
 .dash-ferries .reset-mg-top {
     margin-top: 0 !important;
+}
+.back-text{
+    display: none !important;
+}
+
+.bar-stable,[nav-bar-transition="ios"] [nav-bar="active"] .bar, [nav-bar-transition="ios"] [nav-bar="entering"] .bar,[nav-bar-transition="android"] [nav-bar="active"] .bar, [nav-bar-transition="android"] [nav-bar="entering"] .bar{
+    background-color: #296ad4;
+}
+
+.back-button .icon:before{
+   color: #ebf3ff;
 }
