@@ -5,20 +5,43 @@ ferryTracker.controller('DashCtrl', function ($scope, Ferry) {
         routes: Ferry.routes(),
         buildings: Ferry.buildings(),
         userBuilding: "",
-        buildingRoutes: []
+        buildingRoutes: [],
+        ferriesOnRoute: [],
+        showInfoBox: function(targetIndex) {
+            angular.forEach($scope.data.infoBoxes, function(bool, index){
+                console.log(typeof(targetIndex));
+                console.log(typeof(index));
+                if(parseInt(index)===parseInt(targetIndex)) {
+                    $scope.data.infoBoxes[index] = !$scope.data.infoBoxes[index];
+                } else {
+                    $scope.data.infoBoxes[index] = false;
+                }
+            });
+        }
     };
 
     $scope.selectBuilding = function () {
-        $scope.data.buildingRoutes = $scope.data.buildings[$scope.data.userBuilding];
-        console.log($scope.data.buildingRoutes);
+        var selectedBuilding = $scope.data.userBuilding;
+        $scope.data.buildingRoutes = $scope.data.buildings[selectedBuilding];
+        $scope.data.ferriesOnRoute = Ferry.getFerriesOnRoute(selectedBuilding);
     };
 });
 
 ferryTracker.controller('FerriesCtrl', function ($scope, $stateParams, Ferry) {
-    var routeId = ($stateParams.routeId).toUpperCase();
+    var routeId = ($stateParams.routeId).toUpperCase(),
+        infoBoxes = new Array(),
+        numberOfBuildings = 4,
+        ferriesOnRoute = [];
+    
+    for(var i=0; i<numberOfBuildings; i++) {
+        infoBoxes.push(false);
+    }
     
     $scope.data = {
-        selectedRoute: routeId
+        selectedRoute: routeId,
+        ferries: ferriesOnRoute,
+        infoBoxes: infoBoxes,
+        
     };
 });
 

@@ -27,16 +27,39 @@
             <h3 class="padding-top">Available Routes</h3>
             <div class="list card" ng-repeat="(routeId, route) in data.routes" ng-show="data.buildingRoutes.indexOf(routeId)>-1">
                 <div class="item item-divider">Route {{routeId}}</div>
-                <a class="item-content" ui-sref="tab.ferries({routeId:routeId})">
-                    <div class="item item-body  item-icon-right">
-                        <div ng-repeat="building in route.buildings">
-                            Building <strong>{{building}}</strong>
-                            <span ng-hide="$last">to</span>
-                            <span ng-show="$last">& Vice-versa</span>
+                <div class="item item-body">
+                    <!--<div ng-repeat="building in route.buildings">Building
+                        <strong>{{building}}</strong>
+                        <span ng-hide="$last">to</span>
+                        <span ng-show="$last">& Vice-versa</span>
+                    </div>-->
+                    <div class="route-graph-container" ng-repeat="ferry in data.ferriesOnRoute">
+                        <div class="route-graph">
+                            <p>Route B {{Object.keys(ferry.route).length}}</p>
+                            <ul class="line graph">
+                                <li class="unit size1of{{Object.keys(ferry.route).length}} fk-text-center state" ng-repeat="building in ferry.route">
+                                    <ul class="line">
+                                        <li class="order-step" ng-class="{'processed':building.reached, 'inactive':!building.reached}" ng-click="data.showInfoBox($index)"></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="rposition">
+                                <div class="granular-info-box" ng-repeat="building in ferry.route" ng-show="data.infoBoxes[$index]">
+                                    <div class="arrow arrow0"></div>
+                                    <div class="margin5">
+                                        <div class="processed bmargin5 fk-font-normal">Building {{building.office}}</div>
+                                        <ul class="line granular-info">
+                                            <li class="unit col1">Sat, 6th Jun</li>
+                                            <li class="unit col2">12:38 pm</li>
+                                            <li class="lastUnit col4 word-break">Payment Approved</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <i class="icon ion-chevron-right icon-accessory"></i>
                     </div>
-                </a>
+                    
+                </div>
             </div>
         </div>
     </ion-content>

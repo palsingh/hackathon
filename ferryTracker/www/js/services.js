@@ -67,6 +67,84 @@ myAppServices.factory('Ferry', function () {
         "13": ["B", "E"]
     };
 
+    var ferries = [
+        {
+            "_id": "55735d983dd925782082f482",
+            "routeId": "A",
+            "currentDirection": 0,
+            "isRunning": false,
+            "currentLocation": [
+                28.5034721999999970,
+                77.0709068000000030
+            ],
+            "__v": 0,
+            "route": {
+                "14": {
+                    "office": "14",
+                    "isDeparted": false,
+                    "travelTime": "",
+                    "distancePending": "",
+                    "reached": 1
+                },
+                "371": {
+                    "office": "371",
+                    "isDeparted": false,
+                    "travelTime": "",
+                    "distancePending": "",
+                    "reached": 0
+                },
+                "36/37": {
+                    "office": "36/37",
+                    "isDeparted": false,
+                    "travelTime": "",
+                    "distancePending": "",
+                    "reached": 0
+                },
+                "17/18": {
+                    "office": "36/37",
+                    "isDeparted": false,
+                    "travelTime": "",
+                    "distancePending": "",
+                    "reached": 0
+                }
+            }
+        },
+        {
+            "_id": "55735d983dd925782082f482",
+            "routeId": "A",
+            "currentDirection": 0,
+            "isRunning": false,
+            "currentLocation": [
+                28.5034721999999970,
+                77.0709068000000030
+            ],
+            "__v": 0,
+            "route": {
+                "14": {
+                    "office": "14",
+                    "isDeparted": false,
+                    "travelTime": "",
+                    "distancePending": "",
+                    "reached": 1
+                },
+                "371": {
+                    "office": "371",
+                    "isDeparted": false,
+                    "travelTime": "",
+                    "distancePending": "",
+                    "reached": 0
+                },
+                "36/37": {
+                    "office": "36/37",
+                    "isDeparted": false,
+                    "travelTime": "",
+                    "distancePending": "",
+                    "reached": 0
+                }
+            }
+        }
+    ];
+
     return {
         routes: function () {
             return routes;
@@ -82,6 +160,9 @@ myAppServices.factory('Ferry', function () {
         },
         buildings: function () {
             return buildings;
+        },
+        getFerriesOnRoute: function (routeId) {
+            return ferries;
         }
     };
 });
