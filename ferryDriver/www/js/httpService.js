@@ -9,6 +9,7 @@ angular.module('myDriverApp').factory('myServices', ['$http', function httpServi
 			return $http.get(requestUrl + 'getRoutes/');
 		},
 		updateLocation: function(dataObj) {
+			console.log(dataObj)
 			return $http.post(requestUrl + 'updateLocation/', dataObj);
 		}
 	}

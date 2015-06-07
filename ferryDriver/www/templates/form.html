@@ -1,5 +1,23 @@
-<ion-view view-title="Time Table">
-  <ion-content>
+<ion-view view-title="Select Route">
+  <div class="bar bar-header bar-positive">
+      <h1 class="title">Ferry Tracker</h1>
+  </div>
+  <ion-content class="padding">
+    <div class="list tracker-list">
+      <label class="item item-input item-select">
+          <div class="input-label">Select Building</div>
+          <select ng-model="data.userBuilding">
+              <option ng-repeat="(building, routes) in data.buildings" value="{{building}}">Building {{building}}</option>
+          </select>
+      </label>
+    </div>
+    <a href="#/startNavigating" class="button button-block button-stable" ng-click="startInterval();">Share Location</a>
+    <!--<ion-list>      
+      <ion-item class="item-remove-animate item-icon-right">
+      
+      </ion-item>
+    </ion-list>
+    
     <div class="form-group">
       <h3>
         Select Route:
@@ -14,6 +32,7 @@
     <div class="form-group">
       <a href="#/startNavigating" ng-click="startInterval()" class="btn btn-lg btn-success">Share Location</a>
     </div>    
-    
+    -->
+
   </ion-content>
 </ion-view>

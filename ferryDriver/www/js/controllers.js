@@ -4,10 +4,17 @@ ferryDriverTracker.controller('formController', ['myServices','$scope','$interva
     
     var	dataObj = {};
         dataObj.routeId = 'A';
-    
-    myServices.getRoutes().success(function(response){ 
-        dataObj.vehicleId = response.vehicleId; 
-    }); 
+    console.log('vehicle id in local storage '+localStorage.getItem("vehicleId"))
+    if(localStorage.getItem("vehicleId") == null){
+        myServices.getRoutes().success(function(response){ 
+            dataObj.vehicleId = response.vehicleId; 
+            console.log(response);
+            localStorage.setItem("vehicleId", response.vehicleId);
+        });
+    }else{
+        dataObj.vehicleId = localStorage.getItem("vehicleId");
+    }
+    console.log(dataObj)
     
     $scope.getLocation = function() {
       if (navigator.geolocation) {
@@ -18,7 +25,8 @@ ferryDriverTracker.controller('formController', ['myServices','$scope','$interva
     }
     
     $scope.sendPosition = function(){
-        myServices.updateLocation(dataObj).success(function(response){               
+        myServices.updateLocation(dataObj).success(function(response){    
+            console.log(response)           
         });
     }
     
