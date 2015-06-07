@@ -133,3 +133,20 @@
     position: absolute;
     top: 15px;
 }
+
+.bar.bar-stable .title {
+  color: #ebf3ff;
+  background-color: #296ad4;
+  font-family: Pristina;
+  margin: 0;
+  font-size: 27px;
+}
+
+.button.button-stable{
+  background-color: #296ad4;
+  color: #ebf3ff;
+}
+
+ion-tabs.tabs-color-active-positive .tab-item.tab-item-active{
+  color: #296ad4;
+}
