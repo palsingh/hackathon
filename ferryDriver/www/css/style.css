@@ -181,7 +181,7 @@
 .bar.bar-header.bar-positive{
   color: #ebf3ff;
   background-color: #296ad4;
-  font-family: Pristina;
+  /*font-family: Pristina;*/
   margin: 0;
   font-size: 27px;
 }
