@@ -1,14 +1,4 @@
 /* Empty. Add your own CSS if you like */
-@font-face {
-	font-family: 'Conv_Pristina';
-	src: url('fonts/Pristina.eot');
-	src: local('☺'), url('http://10.175.175.90/fonts/Pristina.woff') format('woff'), url('http://10.175.175.90/fonts/Pristina.ttf') format('truetype'), url('http://10.175.175.90/fonts/Pristina.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-
-/** Progress Bar **/
 .graph{
 	background: url('../img/dots-sprite-75a7f2fc.png') repeat-x -6px -206px;
 }
@@ -155,9 +145,8 @@
 .bar.bar-stable .title {
   color: #ebf3ff;
   background-color: #296ad4;
-  font-family: 'Conv_Pristina';
   margin: 0;
-  font-size: 27px;
+  font-size: 24px;
 }
 
 .button.button-stable, 
@@ -198,4 +187,8 @@ ion-tabs.tabs-color-active-positive .tab-item.tab-item-active{
 
 .back-button .icon:before{
    color: #ebf3ff;
+}
+
+.tabs-striped .tabs {
+    background-color: #f8f8f8 !important;
 }
