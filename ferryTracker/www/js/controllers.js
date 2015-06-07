@@ -20,7 +20,10 @@ ferryTracker.controller('infoBoxesCtrl', function ($scope) {
     };
 });
 
-ferryTracker.controller('DashCtrl', function ($scope, Ferry) {
+ferryTracker.controller('DashCtrl', function ($scope, $interval, Ferry) {
+    var $intervalPromise = "",
+        selectedBuilding = "";
+    
     $scope.data = {
         routes: Ferry.routes(),
         buildings: Ferry.buildings(),
@@ -29,10 +32,8 @@ ferryTracker.controller('DashCtrl', function ($scope, Ferry) {
         buildingRoutes: [],
         ferriesOnRoute: []
     };
-
-    $scope.selectBuilding = function () {
-        $scope.data.loadingFerries = true;
-        var selectedBuilding = $scope.data.userBuilding;
+    
+    $scope.data.loadFerries = function() {
         var $promise = Ferry.getFerriesOnRoute(selectedBuilding);
         $promise.then(function (ferriesOnRoute) {
             $scope.data.ferriesOnRoute = ferriesOnRoute;
@@ -41,6 +42,18 @@ ferryTracker.controller('DashCtrl', function ($scope, Ferry) {
         }, function (errorMessage) {
             console.log("Error while fetching ferries for the selected building. Error Message:" + errorMessage);
         });
+    };
+
+    $scope.selectBuilding = function () {
+         // Stop the pending timeout
+        $interval.cancel($intervalPromise);
+        
+        $scope.data.loadingFerries = true;
+        selectedBuilding = $scope.data.userBuilding;
+        $scope.data.loadFerries(selectedBuilding);
+        
+        // Load data recursively
+        $intervalPromise = $interval($scope.data.loadFerries, 10000, 0, true);
     };
 });
 
@@ -72,8 +85,8 @@ ferryTracker.controller('RouteDetailCtrl', function ($scope, $stateParams, $wind
     };
 });
 
-ferryTracker.controller('AccountCtrl', function ($scope) {
-    $scope.settings = {
-        enableFriends: true
+ferryTracker.controller('AccountCtrl', function ($scope, Ferry) {
+    $scope.data = {
+        developers:  Ferry.developers()  
     };
 });

@@ -20,18 +20,18 @@ myAppServices.factory('Ferry', function ($q, $http) {
         },
         "GP-28": {
             "marker": "blue",
-            "latitude": "28.5029773",
-            "longitude": "77.0706075"
+            "latitude": "28.409955",
+            "longitude": "77.060631"
         },
         "17/18": {
             "marker": "brown",
-            "latitude": "28.5013721",
-            "longitude": "77.0700469"
+            "latitude": "28.491686",
+            "longitude": "77.080698"
         },
         "13": {
             "marker": "red",
-            "latitude": "28.499069",
-            "longitude": "77.0697146"
+            "latitude": "28.491177",
+            "longitude": "77.068292"
         }
     };
 
@@ -67,85 +67,26 @@ myAppServices.factory('Ferry', function ($q, $http) {
         "13": ["B", "E"]
     };
 
-    var ferries = [
+    var developers = [
         {
-            "_id": "55735d983dd925782082f482",
-            "routeId": "A",
-            "currentDirection": 0,
-            "isRunning": false,
-            "currentLocation": [
-                28.5034721999999970,
-                77.0709068000000030
-            ],
-            "__v": 0,
-            "route": {
-                "371": {
-                    "office": "371",
-                    "isDeparted": false,
-                    "travelTime": "",
-                    "distancePending": "",
-                    "reached": 0
-                },
-                "36/37": {
-                    "office": "36/37",
-                    "isDeparted": false,
-                    "travelTime": "",
-                    "distancePending": "",
-                    "reached": 0
-                },
-                "14": {
-                    "office": "14",
-                    "isDeparted": false,
-                    "travelTime": "",
-                    "distancePending": "",
-                    "reached": 1
-                },
-                "GP-28": {
-                    "office": "GP-28",
-                    "isDeparted": false,
-                    "travelTime": "",
-                    "distancePending": "",
-                    "reached": 0
-                }
-            }
+            "name": "Jaspal Singh",
+            "email": "jaspal.singh@nagarro.com",
+            "phone": "+91-9953128989"
         },
         {
-            "_id": "55735d983dd925782082f482",
-            "routeId": "B",
-            "currentDirection": 0,
-            "isRunning": false,
-            "currentLocation": [
-                28.5034721999999970,
-                77.0709068000000030
-            ],
-            "__v": 0,
-            "route": {
-                "14": {
-                    "office": "14",
-                    "isDeparted": false,
-                    "travelTime": "",
-                    "distancePending": "",
-                    "reached": 1
-                },
-                "371": {
-                    "office": "371",
-                    "isDeparted": false,
-                    "travelTime": "",
-                    "distancePending": "",
-                    "reached": 0
-                },
-                "36/37": {
-                    "office": "36/37",
-                    "isDeparted": false,
-                    "travelTime": "",
-                    "distancePending": "",
-                    "reached": 0
-                }
-            }
-        }
+            "name": "Manish Kumar",
+            "email": "manish.kumar05@nagarro.com",
+            "phone": "+91-7838626404"
+        },
+        {
+            "name": "Nikhil Pahwa",
+            "email": "nikhil.pahwa@nagarro.com",
+            "phone": "+91- 8860191605"
+        }         
     ];
 
     var serverURL = "http://10.175.174.150:5000/";
+    
     return {
         routes: function () {
             return routes;
@@ -161,6 +102,9 @@ myAppServices.factory('Ferry', function ($q, $http) {
         },
         buildings: function () {
             return buildings;
+        },
+        developers:  function() {
+            return developers;  
         },
         getFerriesOnRoute: function (buildingId) {
             var deferred = $q.defer();
