@@ -217,33 +217,43 @@ app.post('/getLocation/', function (req, res) {
                 console.log("Got response from web service");
                 if (!err) {
                     body = JSON.parse(body);
-                    for (var i = 0; i < (yetToreach.length); i += 1) {
-                        item.route[yetToreach[i].office].travelTime = body.rows[0].elements[i].duration.text;
-                        item.route[yetToreach[i].office].distancePending = body.rows[0].elements[i].distance.text;
-                    }
-                    FTS.update({_id: item._id}, {
-                        route: item.route
-                    }, function (err, data) {
-                        if (err) {
-                            res.send({
-                                'status': 'error'
-                            });
-                        } else {
-                            result.push(item);
-                            console.log(index, items.length);
-                            if (index === (items.length -1)) {
-                                res.json(result);
-                            }
+                    if (body.status.toLocaleLowerCase() == 'ok') {
+                        for (var i = 0; i < (yetToreach.length); i += 1) {
+                            item.route[yetToreach[i].office].travelTime = body.rows[0].elements[i].duration.text;
+                            item.route[yetToreach[i].office].distancePending = body.rows[0].elements[i].distance.text;
                         }
-                    })
+                        FTS.update({_id: item._id}, {
+                            route: item.route
+                        }, function (err, data) {
+                            if (err) {
+                                res.send({
+                                    'status': 'error'
+                                });
+                            } else {
+                                result.push(item);
+                                if (index === (items.length -1)) {
+                                    res.json(groupRoutes(result));
+                                }
+                            }
+                        });
+                    } else {
+                        if (index === (items.length -1)) {
+                            res.json(groupRoutes(items));
+                        }
+                    }
                 } else {
-                    res.send({
+                    console.log("comoing here??");
+                    res.json({
                         'status': 'error'
                     });
                 }
                 console.log("web service result");
             });
         });
+        if (!items.length) {
+            console.log("comoing here??");
+            res.json([]);
+        }
     });
 });
 
@@ -261,7 +271,7 @@ function calculateDistance (lat1, lon1, lat2, lon2, unit) {
         var radlon2 = Math.PI * lon2/180;
         var theta = lon1-lon2;
         var radtheta = Math.PI * theta/180;
-        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);;
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
         dist = Math.acos(dist);
         dist = dist * 180/Math.PI;
         dist = dist * 60 * 1.1515;
@@ -280,6 +290,22 @@ function createRouteObject (routeId) {
             travelTime: '',
             isDeparted: false,
             office: ''
+        }
+    }
+    return result;
+}
+
+function groupRoutes (routes) {
+    var result = {};
+    for (var i in ferryRoutes) {
+        result[i] = [];
+        for (var j = 0; j < (routes.length); j += 1) {
+            if (i === routes[j].routeId) {
+                result[i].push(routes[j])
+            }
+        }
+        if (!result[i].length) {
+            delete result[i]
         }
     }
     return result;

@@ -1,4 +1,11 @@
 /* Empty. Add your own CSS if you like */
+@font-face {
+	font-family: 'Conv_Pristina';
+	src: url('fonts/Pristina.eot');
+	src: local('☺'), url('http://10.175.175.90/fonts/Pristina.woff') format('woff'), url('http://10.175.175.90/fonts/Pristina.ttf') format('truetype'), url('http://10.175.175.90/fonts/Pristina.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
 
 
 /** Progress Bar **/
@@ -143,7 +150,7 @@
 .bar.bar-stable .title {
   color: #ebf3ff;
   background-color: #296ad4;
-  font-family: Pristina;
+  font-family: 'Conv_Pristina';
   margin: 0;
   font-size: 27px;
 }
